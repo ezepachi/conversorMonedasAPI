@@ -1,8 +1,10 @@
 ﻿using conversorDeMonedas.Entities;
 using conversorDeMonedas.Models.Dtos;
+using ConversorDeMonedasBack.Data.Models.Enum;
 using conversorMonedas.Data;
 using conversorMonedas.Entities;
 using conversorMonedas.Services.Interfaces;
+using CurrencyConverter.Data.Models.Dtos;
 
 namespace AgendaApi.Services.Implementations
 {
@@ -15,12 +17,12 @@ namespace AgendaApi.Services.Implementations
         }
         public User? GetById(int userId)
         {
-            return _context.Users.Include(u => u.Contacts).SingleOrDefault(u => u.Id == userId);
+            return _context.Users.SingleOrDefault(u => u.Id == userId);
         }
 
         public User? ValidateUser(AuthenticationRequestBody authRequestBody)
         {
-            return _context.Users.FirstOrDefault(p => p.UserName == authRequestBody.Email && p.Password == authRequestBody.Password);
+            return _context.Users.FirstOrDefault(p => p.Email == authRequestBody.Email && p.Password == authRequestBody.Password);
         }
 
         public List<User> GetAll()
@@ -28,15 +30,15 @@ namespace AgendaApi.Services.Implementations
             return _context.Users.ToList();
         }
 
-        public void Create(CreateAndUpdateUserDto dto)
+        public void CreateUser(CreateAndUpdateUserDto dto)
         {
             User newUser = new User()
             {
-                FirstName = dto.FirstName,
-                LastName = dto.LastName,
+                Email = dto.Email,
                 Password = dto.Password,
-                UserName = dto.UserName,
-                TypeSubscription = new List<Subscriptions>() // Esto debería ser un enum, no una lista.
+                Username = dto.UserName,
+                Conversions = 10,
+                Currencies = new List<Currency>()
             };
             _context.Users.Add(newUser);
             _context.SaveChanges();
@@ -49,17 +51,15 @@ namespace AgendaApi.Services.Implementations
          * Cuando modificamos algo el estado de la entidad pasa a "Modified"
          * Una vez hacemos _context.SaveChanges() esto va a ver que la entidad fue modificada y guarda los cambios en la base de datos.
          */
-        public void Update(CreateAndUpdateUserDto dto, int userId)
+        public void UpdateUser(CreateAndUpdateUserDto dto, int userId)
         {
             User userToUpdate = _context.Users.First(u => u.Id == userId);
-            userToUpdate.FirstName = dto.FirstName;
-            //userToUpdate.UserName = dto.NombreDeUsuario; //Esto no deberíamos actualizarlo, lo mejor es crear un dto para actualización que no contenga este campo.
-            userToUpdate.LastName = dto.LastName;
+            userToUpdate.Email = dto.Email;
             userToUpdate.Password = dto.Password;
             _context.SaveChanges();
         }
 
-        public void Delete(int id)
+        public void DeleteUser(int id)
         {
             _context.Users.Remove(_context.Users.Single(u => u.Id == id));
             _context.SaveChanges();
@@ -72,9 +72,26 @@ namespace AgendaApi.Services.Implementations
             return user != null;
         }
 
-        public void Archive(int id)
+        public void UpdateUserPlan(int userId, UserPlan newPlan)
         {
-            throw new NotImplementedException();
+            // Obtener usuario existente
+            var userToUpdate = _context.Users.SingleOrDefault(u => u.Id == userId);
+
+            // Verificar si se encontró el usuario
+            if (userToUpdate == null)
+            {
+                throw new Exception("Usuario no encontrado"); // Manejar error si no se encuentra el usuario
+            }
+
+            // Actualizar plan de usuario
+            userToUpdate.Plan = newPlan; // O TypeSubscription dependiendo de tu diseño
+
+            // Guardar cambios en la base de datos
+            _context.SaveChanges();
         }
+
+
     }
 }
+
+    

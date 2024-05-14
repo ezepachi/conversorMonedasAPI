@@ -1,8 +1,8 @@
-﻿using conversorMonedas.Models.Dtos;
+﻿using conversorDeMonedas.Models;
+using conversorDeMonedas.Models.Dtos;
 using IdentityServer3.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 namespace AgendaApi.Controllers
 {
     [Route("api/[controller]")]
@@ -11,44 +11,33 @@ namespace AgendaApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        public UserController(IUserService userRepository)
+        public UserController(IUserService userService)
         {
-            _userService = userRepository;
+            _userService = userService;
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult GetAllUsers()
         {
-            return Ok(_userService.GetAll());
+            return Ok(_userService.GetAllUsers());
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetOneById(int id)
+        public IActionResult GetUser(int id)
         {
             if (id == 0)
             {
                 return BadRequest("El ID ingresado debe ser distinto de 0");
             }
 
-            User? user = _userService.GetById(id);
+            UserDto? user = _userService.GetById(id);
 
             if (user is null)
             {
                 return NotFound();
             }
 
-            var dto = new GetUserByIdResponse()
-            {
-                Apellido = user.LastName,
-                Nombre = user.FirstName,
-                NombreDeUsuario = user.UserName,
-                Estado = user.State,
-                Id = user.Id,
-                Contactos = user.Contacts,
-                Rol = user.Rol
-            };
-
-            return Ok(dto);
+            return Ok(User);
 
         }
 
@@ -84,7 +73,7 @@ namespace AgendaApi.Controllers
             return NoContent();
         }
 
-        [HttpDelete]
+        [HttpDelete("{userId")]
         public IActionResult DeleteUser(int id)
         {
             User? user = _userService.GetById(id);

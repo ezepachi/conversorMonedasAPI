@@ -2,18 +2,19 @@
 using conversorDeMonedas.Models;
 using conversorDeMonedas.Entities;
 using conversorDeMonedas.Models.Dtos;
+using ConversorDeMonedasBack.Data.Models.Enum;
 
 namespace conversorMonedas.Services.Interfaces
 {
     public interface IUserService
     {
-        void Archive(int id);
-        bool CheckIfUserExists(int userId);
-        void Create(CreateAndUpdateUserDto dto);
-        void Delete(int id);
-        List<User> GetAll();
         User? GetById(int userId);
-        void Update(CreateAndUpdateUserDto dto, int userId);
         User? ValidateUser(AuthenticationRequestBody authRequestBody);
+        List<User> GetAll();
+        bool CheckIfUserExists(int userId);
+        void CreateUser(CreateAndUpdateUserDto dto);
+        void UpdateUser(CreateAndUpdateUserDto dto, int userId);
+        void DeleteUser(int userId);
+        void UpdateUserPlan(int userId, UserPlan newPlan);
     }
 }
