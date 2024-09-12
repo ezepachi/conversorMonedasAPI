@@ -1,4 +1,5 @@
-﻿using conversorMonedas.Data;
+﻿/*
+using conversorMonedas.Data;
 using conversorMonedas.Entities;
 using conversorMonedas.Services.Interfaces;
 
@@ -42,3 +43,4 @@ namespace ConversorDeMonedasBack.Services
         }
     }
 }
+*/

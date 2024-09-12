@@ -1,12 +1,10 @@
-﻿using AgendaApi.Services.Implementations;
-using conversorMonedas.Data;
+﻿using conversorMonedas.Data;
 using conversorMonedas.Services.Interfaces;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +23,7 @@ builder.Services.AddSwaggerGen(setupAction =>
     {
         Type = SecuritySchemeType.Http,
         Scheme = "Bearer",
-        Description = "Ac� pegar el token generado al loguearse."
+        Description = "Acá pegar el token generado al loguearse."
     });
 
     setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -36,16 +34,20 @@ builder.Services.AddSwaggerGen(setupAction =>
                 Reference = new OpenApiReference
                 {
                     Type = ReferenceType.SecurityScheme,
-                    Id = "ConversorApiBearerAuth" } //Tiene que coincidir con el id seteado arriba en la definici�n
-                }, new List<string>() }
+                    Id = "ConversorApiBearerAuth" //Tiene que coincidir con el id seteado arriba en la definición
+                }
+            },
+            new List<string>() // Lista vacía, ya que no se especifican scopes aquí
+        }
     });
 });
-
 builder.Services.AddDbContext<ConversorContext>(dbContextOptions => dbContextOptions.UseSqlite(
-    builder.Configuration["ConnectionStrings:AgendaAPIDBConnectionString"]));
+    builder.Configuration["ConnectionStrings:ConversorAPIDBConnectionString"]));
 
-builder.Services.AddAuthentication("Bearer") //"Bearer" es el tipo de auntenticaci�n que tenemos que elegir despu�s en PostMan para pasarle el token
-    .AddJwtBearer(options => //Ac� definimos la configuraci�n de la autenticaci�n. le decimos qu� cosas queremos comprobar. La fecha de expiraci�n se valida por defecto.
+/* 
+// Comentado para evitar complicaciones con JWT temporalmente
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new()
         {
@@ -56,15 +58,13 @@ builder.Services.AddAuthentication("Bearer") //"Bearer" es el tipo de auntentica
             ValidAudience = builder.Configuration["Authentication:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Authentication:SecretForKey"]))
         };
-    }
-);
+    });
+*/
 
-
-#region DependencyInjections
-builder.Services.AddScoped<IUserService, UserService>();
-//aca debemos agregar el servicio para las monedas, el que usemos para el conversor
-//builder.Services.AddScoped<IContactService, ContactService>();
-#endregion
+//#region DependencyInjections
+//builder.Services.AddScoped<IUserService, UserService>();
+// Aca debemos agregar el servicio para las monedas, el que usemos para el conversor
+//#endregion
 
 var app = builder.Build();
 
@@ -75,10 +75,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
+// app.UseAuthentication(); // Comentado temporalmente
 
 app.UseAuthorization();
 

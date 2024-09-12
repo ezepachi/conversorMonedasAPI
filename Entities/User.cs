@@ -7,17 +7,12 @@ namespace conversorDeMonedas.Entities
 {
     public class User
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Required]
-        public string? Username { get; set; }
-        [Required]
-        public string? Password { get; set; }
-        public string? Email { get; set; }
-        public int Conversions { get; set; }
-        public string Role { get; set; } = "User";
-        public UserPlan Plan { get; set; } = UserPlan.Free;
-        public List<Currency>? Currencies { get; set; }
+        public string Username { get; set; } // Nombre de usuario único
+        public string Email { get; set; } // Correo electrónico único
+        public string PasswordHash { get; set; } // Hash de la contraseña
+        public Subscription Subscription { get; set; } // Relación con Suscripción
+        public ICollection<Conversion> Conversions { get; set; } // Conversiones realizadas
+        public ICollection<FavoriteCurrency> FavoriteCurrencies { get; set; } // Monedas favoritas
     }
 }

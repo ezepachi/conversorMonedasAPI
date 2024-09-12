@@ -1,4 +1,5 @@
-﻿using conversorDeMonedas.Entities;
+﻿/*
+using conversorDeMonedas.Entities;
 using conversorDeMonedas.Models.Dtos;
 using ConversorDeMonedasBack.Data.Models.Enum;
 using conversorMonedas.Data;
@@ -50,7 +51,7 @@ namespace AgendaApi.Services.Implementations
          * Cuando traemos la entidad entity framework trackea las propiedades del objeto
          * Cuando modificamos algo el estado de la entidad pasa a "Modified"
          * Una vez hacemos _context.SaveChanges() esto va a ver que la entidad fue modificada y guarda los cambios en la base de datos.
-         */
+         #1#
         public void UpdateUser(CreateAndUpdateUserDto dto, int userId)
         {
             User userToUpdate = _context.Users.First(u => u.Id == userId);
@@ -93,5 +94,6 @@ namespace AgendaApi.Services.Implementations
 
     }
 }
+*/
 
     

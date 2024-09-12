@@ -1,4 +1,5 @@
-﻿using conversorMonedas.Entities;
+﻿/*
+using conversorMonedas.Entities;
 
 namespace conversorMonedas.Services.Interfaces
 {
@@ -10,3 +11,4 @@ namespace conversorMonedas.Services.Interfaces
         int GetSubscriptionAmountOfConversions(int IdSuscription);
     }
 }
+*/

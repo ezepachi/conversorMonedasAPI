@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../austral-proyect-2024" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../fiestuki-docker" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../fiestuki-docker/api-events" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../fiestuki-docker/events-front" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../seminario-django" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../../TUP- 2do año/austral-proyect-2024" vcs="Git" />
+  </component>
+</project>

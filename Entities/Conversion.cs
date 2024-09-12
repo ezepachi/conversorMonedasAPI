@@ -1,22 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using conversorDeMonedas.Entities;
 
 namespace conversorMonedas.Entities
 {
     public class Conversion
-    {   
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int IdConversion { get; set; }
-
-        public int IdUser { get; set; }
-        [ForeignKey("IdCurrencyFrom")]
-        public int IdCurrencyFrom { get; set; }
-
-        [ForeignKey("IdCurrencyTo")]
-        public int IdCurrencyTo { get; set; }
-        public float Amount { get; set; }
-        public float Result { get; set; }
-        public DateTime Date { get; set; }
+    {
+        public int Id { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
+        public int FromCurrencyId { get; set; }
+        public Currency FromCurrency { get; set; }
+        public int ToCurrencyId { get; set; }
+        public Currency ToCurrency { get; set; }
+        public decimal Amount { get; set; }
+        public decimal ConvertedAmount { get; set; }
+        public DateTime Timestamp { get; set; }
     }
 }

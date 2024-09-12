@@ -1,4 +1,5 @@
-﻿using conversorDeMonedas.Models;
+﻿/*
+using conversorDeMonedas.Models;
 using conversorDeMonedas.Models.Dtos;
 using IdentityServer3.Core.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -94,3 +95,4 @@ namespace AgendaApi.Controllers
         }
     }
 }
+*/
