@@ -1,14 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace conversorDeMonedas.Models.Dtos
+﻿namespace conversorMonedas.Models.Dtos
 {
-    public class AuthenticationRequestBody
+    public class AuthenticationRequestBodyDto
     {
-        [Required]
-        [EmailAddress]
-        public string? Email { get; set; }
-
-        [Required]
-        public string? Password { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }

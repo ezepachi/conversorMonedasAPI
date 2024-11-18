@@ -3,6 +3,8 @@ using conversorMonedas.Services.Interfaces;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
+using conversorMonedas.Interfaces;
+using conversorMonedas.Interfaces.Implementations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -43,6 +45,11 @@ builder.Services.AddSwaggerGen(setupAction =>
 });
 builder.Services.AddDbContext<ConversorContext>(dbContextOptions => dbContextOptions.UseSqlite(
     builder.Configuration["ConnectionStrings:ConversorAPIDBConnectionString"]));
+
+builder.Services.AddScoped<ICurrencyService, CurrencyService>();
+builder.Services.AddScoped<IConversionService, ConversionService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
 
 /* 
 // Comentado para evitar complicaciones con JWT temporalmente

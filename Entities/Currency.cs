@@ -1,5 +1,4 @@
-﻿using conversorDeMonedas.Entities;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace conversorMonedas.Entities
@@ -7,8 +6,10 @@ namespace conversorMonedas.Entities
     public class Currency
     {
         public int Id { get; set; }
-        public string Code { get; set; } // Código de la moneda (e.g., USD)
+        public string Code { get; set; }  // Código de la moneda (e.g., USD)
         public string Legend { get; set; } // Nombre completo (e.g., Dólar Americano)
+        
+        [Required]
         public string Symbol { get; set; } // Símbolo (e.g., $)
         public decimal ConvertibilityIndex { get; set; } // Índice de convertibilidad
     }

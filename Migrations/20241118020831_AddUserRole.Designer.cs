@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using conversorMonedas.Data;
 
@@ -10,9 +11,11 @@ using conversorMonedas.Data;
 namespace conversorMonedas.Migrations
 {
     [DbContext(typeof(ConversorContext))]
-    partial class ConversorContextModelSnapshot : ModelSnapshot
+    [Migration("20241118020831_AddUserRole")]
+    partial class AddUserRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");

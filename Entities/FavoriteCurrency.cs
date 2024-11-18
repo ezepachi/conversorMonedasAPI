@@ -1,4 +1,3 @@
-using conversorDeMonedas.Entities;
 
 namespace conversorMonedas.Entities;
 

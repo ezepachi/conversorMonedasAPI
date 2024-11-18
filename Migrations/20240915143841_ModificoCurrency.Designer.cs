@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using conversorMonedas.Data;
 
@@ -10,12 +11,37 @@ using conversorMonedas.Data;
 namespace conversorMonedas.Migrations
 {
     [DbContext(typeof(ConversorContext))]
-    partial class ConversorContextModelSnapshot : ModelSnapshot
+    [Migration("20240915143841_ModificoCurrency")]
+    partial class ModificoCurrency
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
+
+            modelBuilder.Entity("conversorDeMonedas.Entities.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
 
             modelBuilder.Entity("conversorMonedas.Entities.Conversion", b =>
                 {
@@ -76,32 +102,6 @@ namespace conversorMonedas.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Currencies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Code = "USD",
-                            ConvertibilityIndex = 1m,
-                            Legend = "Dólar Americano",
-                            Symbol = "$"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Code = "ARS",
-                            ConvertibilityIndex = 0.002m,
-                            Legend = "Peso Argentino",
-                            Symbol = "$"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Code = "EUR",
-                            ConvertibilityIndex = 1.09m,
-                            Legend = "Euro",
-                            Symbol = "€"
-                        });
                 });
 
             modelBuilder.Entity("conversorMonedas.Entities.FavoriteCurrency", b =>
@@ -122,7 +122,7 @@ namespace conversorMonedas.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("FavoriteCurrencies");
+                    b.ToTable("FavoriteCurrency");
                 });
 
             modelBuilder.Entity("conversorMonedas.Entities.Subscription", b =>
@@ -150,89 +150,6 @@ namespace conversorMonedas.Migrations
                         .IsUnique();
 
                     b.ToTable("Subscriptions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ConversionLimit = 10,
-                            ExpirationDate = new DateTime(2024, 12, 18, 2, 8, 31, 142, DateTimeKind.Utc).AddTicks(620),
-                            Type = "Free",
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ConversionLimit = -1,
-                            ExpirationDate = new DateTime(2025, 11, 18, 2, 8, 31, 142, DateTimeKind.Utc).AddTicks(630),
-                            Type = "Premium",
-                            UserId = 2
-                        });
-                });
-
-            modelBuilder.Entity("conversorMonedas.Entities.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Firstname")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Lastname")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Role")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("SubscriptionId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Email = "john@example.com",
-                            Firstname = "John",
-                            Lastname = "Doe",
-                            Password = "123456",
-                            Role = 0,
-                            SubscriptionId = 1,
-                            Username = "user1"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Email = "jane@example.com",
-                            Firstname = "Jane",
-                            Lastname = "Smith",
-                            Password = "654321",
-                            Role = 0,
-                            SubscriptionId = 2,
-                            Username = "user2"
-                        });
                 });
 
             modelBuilder.Entity("conversorMonedas.Entities.Conversion", b =>
@@ -249,7 +166,7 @@ namespace conversorMonedas.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("conversorMonedas.Entities.User", "User")
+                    b.HasOne("conversorDeMonedas.Entities.User", "User")
                         .WithMany("Conversions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -270,7 +187,7 @@ namespace conversorMonedas.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("conversorMonedas.Entities.User", "User")
+                    b.HasOne("conversorDeMonedas.Entities.User", "User")
                         .WithMany("FavoriteCurrencies")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -283,7 +200,7 @@ namespace conversorMonedas.Migrations
 
             modelBuilder.Entity("conversorMonedas.Entities.Subscription", b =>
                 {
-                    b.HasOne("conversorMonedas.Entities.User", "User")
+                    b.HasOne("conversorDeMonedas.Entities.User", "User")
                         .WithOne("Subscription")
                         .HasForeignKey("conversorMonedas.Entities.Subscription", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -292,7 +209,7 @@ namespace conversorMonedas.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("conversorMonedas.Entities.User", b =>
+            modelBuilder.Entity("conversorDeMonedas.Entities.User", b =>
                 {
                     b.Navigation("Conversions");
 
