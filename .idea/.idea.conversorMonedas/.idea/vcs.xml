@@ -3,6 +3,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../austral-proyect-2024" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../conversor-frontend/conversor-frontend" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../fiestuki-docker" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../fiestuki-docker/api-events" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../fiestuki-docker/events-front" vcs="Git" />

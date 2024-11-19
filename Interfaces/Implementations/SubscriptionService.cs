@@ -42,10 +42,19 @@ public class SubscriptionService : ISubscriptionService
         if (user?.Subscription != null)
         {
             user.Subscription.Type = newSubscription.Type;
-            user.Subscription.ConversionLimit = newSubscription.ConversionLimit;
             user.Subscription.ExpirationDate = newSubscription.ExpirationDate;
+
+            // Determinar automáticamente el límite según el tipo
+            user.Subscription.ConversionLimit = newSubscription.Type switch
+            {
+                "Free" => 10,
+                "Pro" => -1, // Ilimitado
+                "Trial" => 100,
+                _ => throw new ArgumentException("Tipo de suscripción no válido.")
+            };
 
             _context.SaveChanges();
         }
     }
+
 }
